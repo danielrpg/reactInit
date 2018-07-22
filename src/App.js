@@ -4,24 +4,45 @@ import "./App.css";
 class App extends Component {
   constructor() {
     super();
-    this.changeTitle = this.changeTitle.bind(this);
+    this.addTask = this.addTask.bind(this);
     this.state = {
-      title: "Hola Mundo desde Estado"
+      tasks: ["Task 1", "Task 2"]
     };
   }
 
   render() {
     return (
       <div>
-        <h1>{this.state.title}</h1>
-        <button onClick={this.changeTitle}>Cambie el titulo</button>
+        <h1>Hola Mundo</h1>
+        <ul>{this.state.tasks.map(task => <li>{task}</li>)}</ul>
+        <button onClick={this.addTask.bind(this)}>Agregar Task</button>
+        <button onClick={this.updateTask.bind(this)}>Modificar Task</button>
       </div>
     );
   }
 
-  changeTitle() {
+  addTask() {
     this.setState({
-      title: "Nuevo titulo"
+      tasks: this.state.tasks.concat("Nueva Tarea")
+    });
+  }
+
+  updateTask() {
+    //const index = 1;
+    const index = this.state.tasks.findIndex(task => task === "Task 2");
+
+    /* this.setState({
+      tasks: this.state.tasks.map(
+        (task, i) => (i === index ? "Actualizado" : task)
+      )
+    });*/
+    const tasks = this.state.tasks;
+    this.setState({
+      tasks: [
+        ...tasks.slice(0, index),
+        "Actualizado",
+        ...tasks.slice(index + 1)
+      ]
     });
   }
 }
