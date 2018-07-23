@@ -1,56 +1,33 @@
 import React, { Component } from "react";
 import "./App.css";
+import axios from "axios";
 
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
-      name: "",
-      terms: false
+      names: []
     };
+
+    axios
+      .get("http://localhost:3001/names")
+      .then(response => {
+        this.setState({
+          names: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
   render() {
     return (
       <div>
         <h1>Hola mundo</h1>
-        <input
-          type="text"
-          value={this.state.name}
-          onChange={this.updateName.bind(this)}
-        />
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={this.state.terms}
-              onChange={this.updateTerms.bind(this)}
-            />
-            Acepto los terminos
-          </label>
-        </div>
-        <button onClick={this.sayHi.bind(this)}>Say Hello </button>
+        <ul>{this.state.names.map(name => <li key={name}>{name}</li>)}</ul>
       </div>
     );
-  }
-
-  updateTerms(event) {
-    this.setState({
-      terms: event.target.value
-    });
-  }
-
-  updateName(event) {
-    this.setState({
-      name: event.target.value
-    });
-  }
-
-  sayHi() {
-    if (this.state.terms) {
-      alert("Hola " + this.state.name);
-    } else {
-      alert("Debes aceptar los terminos");
-    }
   }
 }
 
