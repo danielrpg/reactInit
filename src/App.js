@@ -13,10 +13,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>Hola Mundo</h1>
-        <ul>{this.state.tasks.map(task => <li>{task}</li>)}</ul>
+        <ul>
+          {this.state.tasks.map(task => <li key={task.toString()}>{task}</li>)}
+        </ul>
         <button onClick={this.addTask.bind(this)}>Agregar Task</button>
         <button onClick={this.updateTask.bind(this)}>Modificar Task</button>
+        <button onClick={this.deleteTask.bind(this)}>Eliminar Task</button>
       </div>
     );
   }
@@ -43,6 +45,14 @@ class App extends Component {
         "Actualizado",
         ...tasks.slice(index + 1)
       ]
+    });
+  }
+
+  deleteTask() {
+    const index = this.state.tasks.findIndex(task => task === "Task 2");
+    const tasks = [...this.state.tasks];
+    this.setState({
+      tasks: [...tasks.slice(0, index), ...tasks.slice(index + 1)]
     });
   }
 }
